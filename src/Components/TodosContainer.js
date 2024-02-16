@@ -2,14 +2,15 @@ import React from "react";
 import { addTodo, editContainer, removeContainer } from "../actions"
 import { useDispatch, useSelector } from "react-redux";
 import { TodoCard } from "./TodoCard";
+import { v4 as uuidv4 } from 'uuid';
 
-function EditableContainer({containerName, todos}){
-    console.log(containerName);
+function TodosContainer({containerName, todos}){
+    // console.log(containerName);
     const [edit, setEdit] = React.useState(containerName.length == 0);
     const [name, setName] = React.useState(containerName);
     
     const dispatch = useDispatch();
-    const statusOptions = useSelector(state => state.status);
+    const tags = useSelector(state => state.tags);
 
     React.useEffect(() => {
         setName(containerName);
@@ -25,7 +26,8 @@ function EditableContainer({containerName, todos}){
     }
 
     const handleAddTodo = () => {
-        dispatch(addTodo({todo: {todo: '', status: statusOptions[2], time: '2004-10-09'}, container: containerName}));
+        const uniqueId = uuidv4();
+        dispatch(addTodo({todo: {id: uniqueId, todo: '', tag: tags.DEVELOPMENT, time: '2004-10-09'}, container: containerName}));
     }
 
     return (
@@ -49,4 +51,4 @@ function EditableContainer({containerName, todos}){
     )
 }
 
-export {EditableContainer}
+export {TodosContainer}

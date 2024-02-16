@@ -1,9 +1,10 @@
-import { ADD_CONTAINER, ADD_TODO, EDIT_CONTAINER, EDIT_TODO, REMOVE_CONTAINER, REMOVE_TODO, SET_FORM } from "../actions/types"
+import { ADD_CONTAINER, ADD_TODO, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_TODO, SET_ACTIVE_TODO, SET_FORM } from "../actions/types"
 
 const initialState = {
     todos: [['POR HACER', []], ['EN PROCESO', []], ['FINALIZADAS', []]],
-    status: ['DONE', 'PROCESS', 'NOT_STARTED'],
-    form: 'none'
+    tags: {DEVELOPMENT: {color: 'green', value: 'Development'}, TESTING: {color: 'yellow', value: 'Testing'}, DATA_BASE: {color: 'red', value: 'Data Base'}},
+    todoSelected: null,
+    todoCardForm: false
 }
 
 export const todosReducer = (state=initialState, action) => {
@@ -21,10 +22,11 @@ export const todosReducer = (state=initialState, action) => {
         case EDIT_TODO: {
             const containerIndex = state.todos.findIndex(container => container[0] == action.payload.container);
             const newTodos = [...state.todos];
-            const todoIndex = newTodos[containerIndex][1].findIndex(todo => todo.todo == action.payload.oldTodo.todo);
+            console.log(action.payload);
+            console.log(state.todos[0][1][0].id);
+            const todoIndex = newTodos[containerIndex][1].findIndex(todo => todo.id == action.payload.newTodo.id);
             newTodos[containerIndex][1][todoIndex] = action.payload.newTodo;
-            console.log('todoIndex', todoIndex);
-            console.log('newTodos', newTodos);
+            console.log(newTodos);
             if(containerIndex >= 0){
                return {...state, todos: newTodos}; 
             }
@@ -32,10 +34,8 @@ export const todosReducer = (state=initialState, action) => {
         case REMOVE_TODO: {
             const containerIndex = state.todos.findIndex(container => container[0] == action.payload.container);
             const newTodos = [...state.todos];
-            const todoIndex = newTodos[containerIndex][1].findIndex(todo => todo.todo == action.payload.todo.todo);
-            console.log('todoIndex', todoIndex);
+            const todoIndex = newTodos[containerIndex][1].findIndex(todo => todo.id == action.payload.todoId);
             newTodos[containerIndex][1].splice(todoIndex, 1);
-            console.log('newTodos', newTodos);
             if(containerIndex >= 0){
                return {...state, todos: newTodos}; 
             }
@@ -57,8 +57,10 @@ export const todosReducer = (state=initialState, action) => {
             newTodos.splice(containerIndex, 1);
             return {...state, todos: newTodos};
         }
-        case SET_FORM:
-                return {...state, form: action.payload}
+        case MANAGE_TODO_FORM:
+            return {...state, todoCardForm: action.payload}
+        case SET_ACTIVE_TODO:
+            return {...state, todoSelected: action.payload}
         default:
             return state
     }

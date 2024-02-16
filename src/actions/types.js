@@ -4,4 +4,5 @@ export const REMOVE_TODO = 'REMOVE_TODO';
 export const ADD_CONTAINER = 'ADD_CONTAINER';
 export const EDIT_CONTAINER = 'EDIT_CONTAINER'
 export const REMOVE_CONTAINER = 'REMOVE_CONTAINER';
-export const SET_FORM = 'SET_FORM';
+export const MANAGE_TODO_FORM = 'MANAGE_TODO_FORM';
+export const SET_ACTIVE_TODO = 'SET_ACTIVE_TODO';
