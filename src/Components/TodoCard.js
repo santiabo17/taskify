@@ -5,9 +5,8 @@ import { CloseIcon } from "./CloseIcon";
 import { EditIcon } from "./EditIcon";
 
 function TodoCard({todo, container}){
-    console.log(todo);
+    // console.log(todo);
     const [editTask, setEditTask] = React.useState(todo.todo.length == 0);
-
     const [task, setTask] = React.useState(todo.todo);
     const [tags, setTags] = React.useState(todo.tags);
     const [time, setTime] = React.useState(todo.time);
@@ -32,7 +31,7 @@ function TodoCard({todo, container}){
     }
 
     const handleRemoveTodo = () => {
-        dispatch(removeTodo({todoId: todo.id, container: container}))
+        dispatch(removeTodo({todoId: todo.id, container: container}));
     }
 
     const handleOpenEditCard = () => {
@@ -41,9 +40,16 @@ function TodoCard({todo, container}){
     }
 
     return (
-       <div className='relative bg-blue-950 mb-2 text-start p-4 w-11/12 mx-auto flex flex-col gap-3'
-            // onClick={handleOpenEditCard}
-       >
+       <div className='relative bg-blue-950 mb-2 text-start p-4 w-11/12 mx-auto flex flex-col gap-3 cursor-move' 
+        draggable={true} 
+        onDragStart={(e) => {
+            console.log('pasado de datos')
+            console.log(container);
+            e.dataTransfer.setData('todoId', todo.id); 
+            e.dataTransfer.setData('oldContainer', container);
+            e.target.classList.add('opacity-100', 'bg-red-400');
+            dispatch(setActiveTodo({...todo, container: container}));
+        }}>
             <CloseIcon className="bg-blue-950 shadow-lg shadow-black/50 absolute w-7 h-7 text-xl font-bold text-white cursor-pointer -top-3 -left-1.5 flex items-center justify-center"
             onClick={handleRemoveTodo}
             />

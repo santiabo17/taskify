@@ -1,4 +1,4 @@
-import { ADD_CONTAINER, ADD_TODO, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_TODO, SET_ACTIVE_TODO, SET_FORM } from "../actions/types"
+import { ADD_CONTAINER, ADD_TODO, ALTER_TODO_CONTAINER, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_TODO, SET_ACTIVE_TODO, SET_FORM } from "../actions/types"
 
 const initialState = {
     todos: [['POR HACER', []], ['EN PROCESO', []], ['FINALIZADAS', []]],
@@ -22,11 +22,8 @@ export const todosReducer = (state=initialState, action) => {
         case EDIT_TODO: {
             const containerIndex = state.todos.findIndex(container => container[0] == action.payload.container);
             const newTodos = [...state.todos];
-            console.log(action.payload);
-            console.log(state.todos[0][1][0].id);
             const todoIndex = newTodos[containerIndex][1].findIndex(todo => todo.id == action.payload.newTodo.id);
             newTodos[containerIndex][1][todoIndex] = action.payload.newTodo;
-            console.log(newTodos);
             if(containerIndex >= 0){
                return {...state, todos: newTodos}; 
             }
@@ -56,6 +53,17 @@ export const todosReducer = (state=initialState, action) => {
             const newTodos = [...state.todos];
             newTodos.splice(containerIndex, 1);
             return {...state, todos: newTodos};
+        }
+        case ALTER_TODO_CONTAINER: {
+            console.log(action.payload);
+            const oldContainerIndex = state.todos.findIndex(container => container[0] == action.payload.containers.old);
+            const newContainerIndex = state.todos.findIndex(container => container[0] == action.payload.containers.new);
+            const newTodos = [...state.todos];
+            const oldTodoIndex = newTodos[oldContainerIndex][1].findIndex(todo => todo.id == action.payload.todo.id);
+            newTodos[oldContainerIndex][1].splice(oldTodoIndex, 1);
+            newTodos[newContainerIndex][1].push(action.payload.todo);
+            console.log(newTodos);
+            return {...state, todos: newTodos, todoSelected: {...state.todoSelected, container: action.payload.containers.new}}
         }
         case MANAGE_TODO_FORM:
             return {...state, todoCardForm: action.payload}

@@ -1,4 +1,4 @@
-import { ADD_CONTAINER, ADD_TODO, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_TODO, SET_ACTIVE_TODO, SET_FORM } from "./types";
+import { ADD_CONTAINER, ADD_TODO, ALTER_TODO_CONTAINER, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_TODO, SET_ACTIVE_TODO, SET_FORM } from "./types";
 
 export const addTodo = (payload) => ({
     type: ADD_TODO,
@@ -27,6 +27,11 @@ export const editContainer = (payload) => ({
 
 export const removeContainer = (payload) => ({
     type: REMOVE_CONTAINER,
+    payload
+})
+
+export const alterTodoContainer = (payload) => ({
+    type: ALTER_TODO_CONTAINER,
     payload
 })
 
