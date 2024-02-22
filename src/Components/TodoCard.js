@@ -19,8 +19,10 @@ function TodoCard({todo, container}){
 
     const dispatch = useDispatch();
     const tagsOptions = useSelector(state => state.tags);
-    const tagsValues = Object.keys(tagsOptions).map(tag => tagsOptions[tag].value);
+    const tagsValues = Object.keys(tagsOptions).filter(tag => tags.includes(tag)).map(tag => [tagsOptions[tag].value, tagsOptions[tag].color]);
     const isOpenTodoForm = useSelector(state => state.todoCardForm);
+
+    // console.log(tagsValues);
 
     const handleSetTodo = () => {
         if(task.length > 0){
@@ -40,16 +42,15 @@ function TodoCard({todo, container}){
     }
 
     return (
-       <div className='relative bg-blue-950 mb-2 text-start p-4 w-11/12 mx-auto flex flex-col gap-3 cursor-move' 
+       <div className='relative bg-indigo-900/30 mb-2 text-start p-4 w-11/12 mx-auto flex flex-col gap-3 cursor-grab active:cursor-grabbing' 
         draggable={true} 
         onDragStart={(e) => {
+            e.stopPropagation();
             console.log('pasado de datos')
             console.log(container);
-            e.dataTransfer.setData('todoId', todo.id); 
-            e.dataTransfer.setData('oldContainer', container);
-            e.target.classList.add('opacity-100', 'bg-red-400');
             dispatch(setActiveTodo({...todo, container: container}));
-        }}>
+        }}
+        >
             <CloseIcon className="bg-blue-950 shadow-lg shadow-black/50 absolute w-7 h-7 text-xl font-bold text-white cursor-pointer -top-3 -left-1.5 flex items-center justify-center"
             onClick={handleRemoveTodo}
             />
@@ -68,27 +69,19 @@ function TodoCard({todo, container}){
                 value={task}
                 />
             </div>
-            <div className="flex justify-between">
-                <h3>Status: </h3>
-                <select name="status"
-                className="w-3/4 bg-blue-950"
-                onChange={(e) => setTags(e.target.value)}
-                onBlur={handleSetTodo} 
-                onClick={(e) => e.stopPropagation()}
-                >
-                    {tagsValues.map(opt => <option value={opt} selected={tags == opt}>{opt}</option>)}
-                </select>
+            <div className="flex items-end justify-between">
+                {time &&           
+                    <h2 className="w-1/2 bg-blue-900">{time}</h2>
+                }
+                {tagsValues.length > 0 &&
+                    <div className="flex flex-col flex-wrap w-1/3 gap-2">
+                        {tagsValues.map(tag => <div style={{backgroundColor: tag[1]}} className='text-right pl-8'>
+                                <span className="block bg-blue-900 font-bold min-w-12 text-[10px] p-0.5 pl-2">{tag[0]}</span>
+                            </div>)}
+                    </div>
+                }
             </div>
-            <div className="flex justify-between">
-                <h3>Time: </h3>
-                <input type="date" 
-                className="w-3/4 bg-blue-950"
-                onChange={(e) => setTime(e.target.value)}
-                onClick={(e) => e.stopPropagation()}
-                onBlur={handleSetTodo} 
-                value={time}
-                />
-            </div>
+           
         </div> 
     )
 }

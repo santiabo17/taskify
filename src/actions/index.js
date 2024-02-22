@@ -1,4 +1,4 @@
-import { ADD_CONTAINER, ADD_TODO, ALTER_TODO_CONTAINER, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_TODO, SET_ACTIVE_TODO, SET_FORM } from "./types";
+import { ADD_CONTAINER, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_FORM } from "./types";
 
 export const addTodo = (payload) => ({
     type: ADD_TODO,
@@ -30,8 +30,18 @@ export const removeContainer = (payload) => ({
     payload
 })
 
+export const alterContainerPosition = (payload) => ({
+    type: ALTER_CONTAINER_POSITION,
+    payload
+})
+
 export const alterTodoContainer = (payload) => ({
     type: ALTER_TODO_CONTAINER,
+    payload
+})
+
+export const alterTodoPosition = (payload) => ({
+    type: ALTER_TODO_POSITION,
     payload
 })
 
@@ -42,5 +52,10 @@ export const manageTodoForm = (payload) => ({
 
 export const setActiveTodo = (payload) => ({
     type: SET_ACTIVE_TODO,
+    payload
+})
+
+export const setActiveContainer = (payload) => ({
+    type: SET_ACTIVE_CONTAINER,
     payload
 })
