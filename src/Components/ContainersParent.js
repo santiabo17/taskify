@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { TodosContainer } from "./TodosContainer";
-import { addContainer, alterContainerPosition } from "../actions";
+import { addContainer, alterContainerPosition, setActiveContainer } from "../actions";
 import React from "react";
 
 function ContainersParent(){
@@ -18,28 +18,18 @@ function ContainersParent(){
     }
 
     const handleChangeContainerPosition = (e) => {
-        console.log(selectedContainer);
-        const containerLeft = container.current.getBoundingClientRect().left;
-        const elementX = e.clientX;
-        // console.log('containerLeft', containerLeft, 'elementX', elementX);
-        const position = elementX - containerLeft;
-        // console.log('position', position);
-        const containerIndex = Math.round(position/400);
-        console.log('containerIndex', containerIndex);
-        dispatch(alterContainerPosition({newIndex: containerIndex, container: selectedContainer}));
-        // const originalIndex = todos.findIndex(todo => todo.id == todoSelected.id);
-        // console.log('todoCOntainer', todoSelected.container);
-        // console.log('containerName', name);
-        // if(todoSelected.container != name){
-        //     console.log('changing container')
-        //     dispatch(alterTodoContainer({todo: todoSelected, containers: {old:todoSelected.container, new: name}}))
-        // }
-        // console.log('originalIndex', originalIndex);
-        // console.log('newIndex', todoIndex);
-        // if(todoIndex != originalIndex){
-        //     console.log('changing position');
-        //     dispatch(alterTodoPosition({todo: todoSelected, container: name, newIndex: todoIndex}));
-        // }
+        if(selectedContainer != null){
+            console.log(selectedContainer);
+            const containerLeft = container.current.getBoundingClientRect().left;
+            const elementX = e.clientX;
+            // console.log('containerLeft', containerLeft, 'elementX', elementX);
+            const position = elementX - containerLeft;
+            // console.log('position', position);
+            const containerIndex = Math.round(position/400);
+            console.log('containerIndex', containerIndex);
+            dispatch(alterContainerPosition({newIndex: containerIndex, container: selectedContainer}));
+        }
+        
     }
 
     return (
@@ -48,6 +38,7 @@ function ContainersParent(){
         ref={container}
         // onDragEnter={handleChangeContainerPosition} 
         onDragOver={e => {e.preventDefault(); handleChangeContainerPosition(e);}}
+        onDrop={() => dispatch(setActiveContainer(null))}
         // onDragStart={(e) => {e.preventDefault();}}
         >
             {containers.map((container, key) => <TodosContainer key={container} containerName={container} todos={todos[key]}/>)}

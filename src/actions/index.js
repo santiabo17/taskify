@@ -1,7 +1,12 @@
-import { ADD_CONTAINER, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_FORM } from "./types";
+import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_DRAG_CONTAINER, SET_FORM } from "./types";
 
 export const addTodo = (payload) => ({
     type: ADD_TODO,
+    payload
+})
+
+export const addEmptyTodo = (payload) => ({
+    type: ADD_EMPTY_TODO,
     payload
 })
 
@@ -12,6 +17,11 @@ export const editTodo = (payload) => ({
 
 export const removeTodo = (payload) => ({
     type: REMOVE_TODO,
+    payload
+})
+
+export const removeEmptyTodo = (payload) => ({
+    type: REMOVE_EMPTY_TODO,
     payload
 })
 
@@ -57,5 +67,10 @@ export const setActiveTodo = (payload) => ({
 
 export const setActiveContainer = (payload) => ({
     type: SET_ACTIVE_CONTAINER,
+    payload
+})
+
+export const setDragContainer = (payload) => ({
+    type: SET_DRAG_CONTAINER,
     payload
 })

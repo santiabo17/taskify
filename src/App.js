@@ -14,7 +14,7 @@ function App() {
   
 
   return (
-    <div className="App bg-slate-800 w-max h-svh">
+    <div className="App bg-slate-800 w-max ">
       <h1 className='text-[100px] text-white'>TRELLO</h1>
       <ContainersParent/>
       {/* <div className="columns_container flex bg-white/10 p-5 mx-10 gap-3 w-fit">
