@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addEmptyTodo, editTodo, manageTodoForm, removeTodo, setActiveContainer, setActiveTodo, setDragContainer } from "../actions";
 import { CloseIcon } from "./CloseIcon";
 import { EditIcon } from "./EditIcon";
+import { orderDateValue } from "../utils";
+import { CalendarIcon } from "./CalendarIcon";
 
 function TodoCard({todo, container}){
     const [editTask, setEditTask] = React.useState(todo.todo.length == 0);
@@ -16,13 +18,14 @@ function TodoCard({todo, container}){
         setTime(todo.time);
     }, [todo]);
 
+    
+
     const todoSelectedCard = React.useRef();
     // const todoGhostCard = useRef();
 
     const dispatch = useDispatch();
-
-    const tagsOptions = useSelector(state => state.tags);
-    const tagsValues = Object.keys(tagsOptions).filter(tag => tags.includes(tag)).map(tag => [tagsOptions[tag].value, tagsOptions[tag].color]);
+    const tagsData = useSelector(state => state.tags);
+    const tagsValues = useSelector(state => state.tags).filter((tag, key) => tags.includes(key));
     const isOpenTodoForm = useSelector(state => state.todoCardForm);
     const todoSelected = useSelector(state => state.todoSelected);
     
@@ -50,11 +53,11 @@ function TodoCard({todo, container}){
 
     return (
         <>
-            {todo.id == todoSelected?.id ?
+            {todo.id == todoSelected?.id && !isOpenTodoForm ?
                 <div 
                     className="relative bg-indigo-500/30 mb-2 h-[70px] w-11/12 mx-auto "
                 ></div> :
-                <div ref={todoSelectedCard} className={`relative bg-indigo-900/30 mb-2 text-start p-4 w-11/12 mx-auto flex flex-col gap-3 cursor-grab active:cursor-grabbing  ${todo.id == todoSelected?.id && 'bg-red-400/50'}`}
+                <div ref={todoSelectedCard} className={`relative bg-indigo-900/30 mb-2 text-start p-4 pl-7 w-11/12 mx-auto flex flex-col gap-3 cursor-grab active:cursor-grabbing`}
                 draggable={true} 
                 onDragStart={(e) => {
                     console.log('pasado de datos');
@@ -83,26 +86,26 @@ function TodoCard({todo, container}){
                     <EditIcon className="bg-blue-950 shadow-lg shadow-black/50 absolute w-7 h-7 text-xl font-bold text-white cursor-pointer -top-3 -right-1.5 flex items-center justify-center"
                     onClick={handleOpenEditCard}
                     />
-                    <div className="flex justify-between">
-                        <h2>Todo:</h2>
-                        <input type="text" 
-                        className="w-3/4 bg-transparent border-0 focus:outline-0"
-                        autoFocus={editTask}
-                        onChange={(e) => setTask(e.target.value)}
-                        onClick={(e) => {setEditTask(true); e.stopPropagation();}}
-                        onBlur={handleSetTodo} 
-                        readOnly={!editTask}
-                        value={task}
-                        />
-                    </div>
+                    <input type="text" 
+                    className="w-3/4 text-xl bg-transparent border-0 focus:outline-0"
+                    autoFocus={editTask}
+                    onChange={(e) => setTask(e.target.value)}
+                    onClick={(e) => {setEditTask(true); e.stopPropagation();}}
+                    onBlur={handleSetTodo} 
+                    readOnly={!editTask}
+                    value={task}
+                    />
                     <div className="flex items-end justify-between">
-                        {time &&           
-                            <h2 className="w-1/2 bg-blue-900">{time}</h2>
+                        {time &&     
+                            <div className="w-1/2 flex items-center justify-between">
+                                <CalendarIcon/>
+                                <h2 className=" font-bold">{orderDateValue(time)}</h2>
+                            </div>    
                         }
                         {tagsValues.length > 0 &&
                             <div className="flex flex-col flex-wrap w-1/3 gap-2">
-                                {tagsValues.map(tag => <div style={{backgroundColor: tag[1]}} className='text-right pl-8'>
-                                        <span className="block bg-blue-900 font-bold min-w-12 text-[10px] p-0.5 pl-2">{tag[0]}</span>
+                                {tagsValues.map((tag) => <div style={{backgroundColor: tag.color}} className='text-right pl-8'>
+                                        <span className="block bg-blue-900 font-bold min-w-12 text-[10px] p-0.5 pl-2">{tag.value}</span>
                                     </div>)}
                             </div>
                         }

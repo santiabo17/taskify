@@ -1,8 +1,8 @@
-import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_DRAG_CONTAINER, SET_FORM } from "../actions/types"
+import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_DRAG_CONTAINER, SET_FORM, SET_TAGS } from "../actions/types"
 
 const initialState = {
     todos: [['POR HACER', []], ['EN PROCESO', []], ['FINALIZADAS', []]],
-    tags: {DEVELOPMENT: {color: 'green', value: 'Development'}, TESTING: {color: 'yellow', value: 'Testing'}, DATA_BASE: {color: 'red', value: 'Data Base'}, URGENT: {color: 'purple', value: 'Urgent'}},
+    tags: [{color: '#006600', value: 'Development'}, {color: '#000099', value: 'Testing'}, {color: '#ff0000', value: 'Data Base'}, {color: '#660066', value: 'Urgent'}],
     todoSelected: null,
     containerSelected: null,
     dragContainer: null,
@@ -34,15 +34,11 @@ export const todosReducer = (state=initialState, action) => {
         case EDIT_TODO: {
             const containerIndex = state.todos.findIndex(container => container[0] == action.payload.container);
             const newTodos = [...state.todos];
+            console.log(action.payload);
             if(action.payload.newTodo.todo.length > 0){
-                const equalNamedTodos = newTodos[containerIndex][1].filter(todo => todo.todo == action.payload.newTodo.todo).length;
-                if(equalNamedTodos < 1){
-                    const todoIndex = newTodos[containerIndex][1].findIndex(todo => todo.id == action.payload.newTodo.id);
-                    newTodos[containerIndex][1][todoIndex] = action.payload.newTodo;
-                    if(containerIndex >= 0){
-                        return {...state, todos: newTodos}; 
-                    }
-                }
+                // const equalNamedTodos = newTodos[containerIndex][1].filter(todo => todo.todo == action.payload.newTodo.todo).length;
+                const todoIndex = newTodos[containerIndex][1].findIndex(todo => todo.id == action.payload.newTodo.id);
+                newTodos[containerIndex][1][todoIndex] = action.payload.newTodo;
             } else {
                 const todoIndex = newTodos[containerIndex][1].findIndex(todo => todo.id == action.payload.newTodo.id);
                 // newTodos[containerIndex][1][todoIndex] = action.payload.newTodo;
@@ -131,6 +127,8 @@ export const todosReducer = (state=initialState, action) => {
                 return {...state, containerSelected: action.payload}
         case SET_DRAG_CONTAINER:
             return {...state, dragContainer: action.payload}
+        case SET_TAGS:
+            return {...state, tags: action.payload}
         default:
             return state
     }

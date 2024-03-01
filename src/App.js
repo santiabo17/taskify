@@ -1,6 +1,6 @@
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContainer } from './actions';
+import { addContainer, setActiveContainer, setActiveTodo } from './actions';
 import React from 'react';
 import { TodosContainer } from './Components/TodosContainer';
 import { TodoEditCard } from './Components/TodoEditCard';
@@ -14,16 +14,17 @@ function App() {
   
 
   return (
-    <div className="App bg-slate-800 w-max ">
+    <div 
+      className="App bg-slate-800 w-max min-h-screen"
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={() => {
+        console.log('argggg');
+        dispatch(setActiveContainer(null)); 
+        dispatch(setActiveTodo(null));
+      }}
+    >
       <h1 className='text-[100px] text-white'>TRELLO</h1>
       <ContainersParent/>
-      {/* <div className="columns_container flex bg-white/10 p-5 mx-10 gap-3 w-fit">
-        {containers.map((container, key) => <TodosContainer key={container} containerName={container} todos={todos[key]}/>)}
-        <button 
-            className='bg-green-400 w-80 basis-80 h-20 py-3 mb-8 mr-2.5'
-            onClick={handleAddNewContainer}
-          >Create New Container</button>
-      </div> */}
       {isOpenTodoForm && <TodoEditCard/>}
     </div>
   );

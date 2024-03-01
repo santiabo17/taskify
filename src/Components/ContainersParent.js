@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { TodosContainer } from "./TodosContainer";
-import { addContainer, alterContainerPosition, setActiveContainer } from "../actions";
+import { addContainer, alterContainerPosition, setActiveContainer, setActiveTodo } from "../actions";
 import React from "react";
 
 function ContainersParent(){
@@ -38,7 +38,10 @@ function ContainersParent(){
         ref={container}
         // onDragEnter={handleChangeContainerPosition} 
         onDragOver={e => {e.preventDefault(); handleChangeContainerPosition(e);}}
-        onDrop={() => dispatch(setActiveContainer(null))}
+        onDrop={() => {
+            dispatch(setActiveContainer(null)); 
+            dispatch(setActiveTodo(null));
+        }}
         // onDragStart={(e) => {e.preventDefault();}}
         >
             {containers.map((container, key) => <TodosContainer key={container} containerName={container} todos={todos[key]}/>)}

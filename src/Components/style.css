@@ -1,0 +1,22 @@
+.color_selector{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.color_selector::-webkit-color-swatch {
+    border-radius: 100%;
+    border: none;
+  }
+.color_selector::-moz-color-swatch {
+    border-radius: 100%;
+    border: none;
+  }
+
+.date_picker::-webkit-calendar-picker-indicator{
+    background-color: white;
+    width: 17px;
+    height: 17px;
+    border-radius: 20%;
+    opacity: 1;
+    cursor: pointer;
+}
