@@ -28,6 +28,7 @@ function TodoCard({todo, container}){
     const tagsValues = useSelector(state => state.tags).filter((tag, key) => tags.includes(key));
     const isOpenTodoForm = useSelector(state => state.todoCardForm);
     const todoSelected = useSelector(state => state.todoSelected);
+    const darkMode = useSelector(state => state.darkMode);
     
     React.useEffect(() => {
         const ghostImage = document.querySelector(".ghost_image");
@@ -55,9 +56,9 @@ function TodoCard({todo, container}){
         <>
             {todo.id == todoSelected?.id && !isOpenTodoForm ?
                 <div 
-                    className="relative bg-indigo-500/30 mb-2 h-[70px] w-11/12 mx-auto "
+                    className={`relative mb-2 h-[50px] w-11/12 mx-auto ${darkMode ? 'bg-indigo-500/30' : 'bg-slate-900/60'}`}
                 ></div> :
-                <div ref={todoSelectedCard} className={`relative bg-indigo-900/30 mb-2 text-start p-4 pl-7 w-11/12 mx-auto flex flex-col gap-3 cursor-grab active:cursor-grabbing`}
+                <div ref={todoSelectedCard} className={`relative ${darkMode ? 'bg-indigo-900/30' : 'bg-zinc-900/10'} mb-2 text-start p-3 pl-8 w-11/12 mx-auto flex flex-col cursor-grab shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)] active:cursor-grabbing`}
                 draggable={true} 
                 onDragStart={(e) => {
                     console.log('pasado de datos');
@@ -80,10 +81,13 @@ function TodoCard({todo, container}){
                 onDragEnter={(e) => e.preventDefault()}
                 onDragOver={() => dispatch(setDragContainer(container))}
                 >
-                    <CloseIcon className="bg-blue-950 shadow-lg shadow-black/50 absolute w-7 h-7 text-xl font-bold text-white cursor-pointer -top-3 -left-1.5 flex items-center justify-center"
+                    <CloseIcon className={`${darkMode ? 'bg-indigo-950' : 'bg-slate-500/80'}
+                    shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)] absolute w-7 h-7 text-xl font-bold text-white cursor-pointer -top-3 -left-1.5 flex items-center justify-center`}
                     onClick={handleRemoveTodo}
                     />
-                    <EditIcon className="bg-blue-950 shadow-lg shadow-black/50 absolute w-7 h-7 text-xl font-bold text-white cursor-pointer -top-3 -right-1.5 flex items-center justify-center"
+                    <EditIcon className={`${darkMode ? 'bg-indigo-950' : 'bg-slate-500/80'} 
+                    shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)]
+                    absolute w-7 h-7 text-xl font-bold text-white cursor-pointer -top-3 -right-1.5 flex items-center justify-center`}
                     onClick={handleOpenEditCard}
                     />
                     <input type="text" 
@@ -95,7 +99,7 @@ function TodoCard({todo, container}){
                     readOnly={!editTask}
                     value={task}
                     />
-                    <div className="flex items-end justify-between">
+                    <div className="flex items-start justify-between mt-1">
                         {time &&     
                             <div className="w-1/2 flex items-center justify-between">
                                 <CalendarIcon/>
@@ -103,9 +107,9 @@ function TodoCard({todo, container}){
                             </div>    
                         }
                         {tagsValues.length > 0 &&
-                            <div className="flex flex-col flex-wrap w-1/3 gap-2">
+                            <div className="flex flex-col flex-wrap w-2/5 gap-2">
                                 {tagsValues.map((tag) => <div style={{backgroundColor: tag.color}} className='text-right pl-8'>
-                                        <span className="block bg-blue-900 font-bold min-w-12 text-[10px] p-0.5 pl-2">{tag.value}</span>
+                                        <span className="block bg-blue-900 font-bold text-[10px] pr-1">{tag.value}</span>
                                     </div>)}
                             </div>
                         }

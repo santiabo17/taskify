@@ -15,6 +15,7 @@ function TodosContainer({containerName, todos, dragging}){
     const dispatch = useDispatch();
     const containerSelected = useSelector(state => state.containerSelected);
     const todoSelected = useSelector(state => state.todoSelected);
+    const darkMode = useSelector(state => state.darkMode);
 
     React.useEffect(() => {
         setName(containerName);
@@ -40,7 +41,7 @@ function TodosContainer({containerName, todos, dragging}){
             const containerTop = container.current.getBoundingClientRect().top + 45;
             const elementY = e.clientY;
             const position = elementY - containerTop;
-            const todoIndex = Math.round(position/130);
+            const todoIndex = Math.round(position/60);
             const originalIndex = todos.findIndex(todo => todo.id == todoSelected.id);
             if(todoSelected.container != name){
                 console.log('changing container')
@@ -58,7 +59,7 @@ function TodosContainer({containerName, todos, dragging}){
             const containerTop = container.current.getBoundingClientRect().top + 45;
             const elementY = e.clientY;
             const position = elementY - containerTop;
-            const todoIndex = Math.round(position/130);
+            const todoIndex = Math.round(position/50);
             const originalIndex = todos.findIndex(todo => todo.id == todoSelected.id);
             dispatch(removeEmptyTodo({container: name}));
             dispatch(addTodo({todo: todoSelected, container: name}));
@@ -82,7 +83,7 @@ function TodosContainer({containerName, todos, dragging}){
         <>
             {containerName == containerSelected ?
                 <div className="column min-h-[400px] text-white bg-slate-700/70 w-80 basis-80"></div> :
-                <div draggable={true} className="column min-h-[400px] text-white bg-slate-900 w-80 basis-80 cursor-grab active:cursor-grabbing"
+                <div draggable={true} className={`column min-h-[400px] text-white ${darkMode ? 'bg-slate-900' : 'bg-slate-400'} w-80 basis-80 cursor-grab active:cursor-grabbing`}
                 onDragLeave={handleChangingTodoContainer}
                 onDragOver={e => {e.preventDefault(); e.stopPropagation(); handleChangingTodoContainer(e)}}
                 onDragStart={(e) => {
@@ -125,7 +126,7 @@ function TodosContainer({containerName, todos, dragging}){
                     )   
                     )}
                     <button 
-                        className='b bg-slate-950 w-48 py-3 mb-8'
+                        className={`${darkMode ? 'bg-slate-950' : 'bg-slate-950/60'}  w-48 py-3 mb-8`}
                         onClick={handleAddTodo}
                     >Create New Todo</button>
                 </div>

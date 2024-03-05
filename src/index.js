@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import {legacy_createStore as createStore} from 'redux';
+import {applyMiddleware, legacy_createStore as createStore} from 'redux';
 import { todosReducer } from './reducers/todos';
+import { reduxLocalStorageMiddleware } from './reducers/reduxLocalStorageMiddleware';
+import { store } from './reducers/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const store = createStore(todosReducer);
+
+// const store = createStore(todosReducer, applyMiddleware(reduxLocalStorageMiddleware));
 
 root.render(
   <React.StrictMode>

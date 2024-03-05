@@ -4,10 +4,14 @@ import { addContainer, alterContainerPosition, setActiveContainer, setActiveTodo
 import React from "react";
 
 function ContainersParent(){
+    const state = useSelector(state => state);
+    // console.log(state);
     const todosData = useSelector(state => state.todos);
+    // console.log(todosData);
     const todos = todosData.map(([_, todos]) => todos);
     const containers = todosData.map(([container, _]) => container);
     const selectedContainer = useSelector(state => state.containerSelected);
+    const darkMode = useSelector(state => state.darkMode);
     
     const dispatch = useDispatch();
 
@@ -25,7 +29,7 @@ function ContainersParent(){
             // console.log('containerLeft', containerLeft, 'elementX', elementX);
             const position = elementX - containerLeft;
             // console.log('position', position);
-            const containerIndex = Math.round(position/400);
+            const containerIndex = Math.round(position/500);
             console.log('containerIndex', containerIndex);
             dispatch(alterContainerPosition({newIndex: containerIndex, container: selectedContainer}));
         }
@@ -34,7 +38,7 @@ function ContainersParent(){
 
     return (
         <div 
-        className="columns_container flex bg-white/5 p-5 mx-10 gap-3 w-fit"
+        className={`columns_container flex ${darkMode ? 'bg-white/5' : 'bg-black/10'} p-5 mx-10 gap-3 w-fit`}
         ref={container}
         // onDragEnter={handleChangeContainerPosition} 
         onDragOver={e => {e.preventDefault(); handleChangeContainerPosition(e);}}
@@ -46,7 +50,7 @@ function ContainersParent(){
         >
             {containers.map((container, key) => <TodosContainer key={container} containerName={container} todos={todos[key]}/>)}
             <button 
-                className='bg-slate-900 text-white w-80 basis-80 h-20 py-3 mb-8 mr-2.5'
+                className={`${darkMode ? 'bg-slate-950' : 'bg-slate-950/70'}  text-white w-80 basis-80 h-20 py-3 mb-8 mr-2.5`}
                 onClick={handleAddNewContainer}
             >Create New Container</button>
         </div>

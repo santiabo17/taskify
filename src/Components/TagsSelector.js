@@ -71,7 +71,7 @@ function TagsSelector({tags, setTags: setSelectedTags}) {
         <div className='w-3/5 space-y-1 gap-2 mb-6'>
           {tagsOptions.map((tag, key) => (
             <div 
-              className={`relative flex items-center w-full h-7 py-0.5 box-content ${tags.includes(key) && 'border-[3px] border-white'}`}>
+              className={`relative flex items-center w-full h-7 py-0.5 box-content ${tags.includes(key) && 'border-l-[2px] border-y-[2px] border-white'}`}>
               <div 
               style={{backgroundColor: tag.color}} 
               className='w-full px-2 h-full flex items-center justify-between text-white font-medium tag_item'
@@ -89,12 +89,12 @@ function TagsSelector({tags, setTags: setSelectedTags}) {
                     {key == focusTagIndex && 
                     <input 
                         type="color" 
-                        className="p-0 bg-transparent cursor-pointer rounded-full w-5 h-5 shadow-[0_0_10px_0px_rgb(0,0,0)] color_selector mr-4"
+                        className="p-0 mt-0.5 bg-transparent cursor-pointer w-4 h-4 shadow-[0_0_1px_2px_rgb(0,0,0)] color_selector mr-2"
                         defaultValue={tag.color}
                         ref={inputColorTag}
                         onChange={setTagColor}
                     />}
-                    <EditIcon className='cursor-pointer' onClick={() => setFocusTag(key)}/>
+                    <EditIcon className='cursor-pointer' onClick={() => setFocusTag(key)} minimalOption={true}/>
                   </div>
               </div>
               <div className="cursor-pointer h-full w-7">{tags.includes(key) ? 

@@ -1,4 +1,4 @@
-import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_DRAG_CONTAINER, SET_FORM, SET_TAGS } from "../actions/types"
+import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_DARK_MODE, SET_DRAG_CONTAINER, SET_FORM, SET_TAGS } from "../actions/types"
 
 const initialState = {
     todos: [['POR HACER', []], ['EN PROCESO', []], ['FINALIZADAS', []]],
@@ -6,7 +6,8 @@ const initialState = {
     todoSelected: null,
     containerSelected: null,
     dragContainer: null,
-    todoCardForm: false
+    todoCardForm: false,
+    darkMode: true
 }
 
 export const todosReducer = (state=initialState, action) => {
@@ -103,8 +104,8 @@ export const todosReducer = (state=initialState, action) => {
             const newTodos = [...state.todos];
             const cantContainerTodos = newTodos[containerIndex][1].length;
             const oldTodoIndex = newTodos[containerIndex][1].findIndex(todo => todo.id == action.payload.todo.id);
-            console.log(oldTodoIndex);
-            console.log(action.payload.newIndex);
+            // console.log(oldTodoIndex);
+            // console.log(action.payload.newIndex);
             if(cantContainerTodos == 0){
                 console.log('first');
                 newTodos[containerIndex][1][0] = action.payload.todo;
@@ -129,6 +130,8 @@ export const todosReducer = (state=initialState, action) => {
             return {...state, dragContainer: action.payload}
         case SET_TAGS:
             return {...state, tags: action.payload}
+        case SET_DARK_MODE:
+            return {...state, darkMode: action.payload}
         default:
             return state
     }
