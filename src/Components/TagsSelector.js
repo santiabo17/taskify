@@ -89,7 +89,7 @@ function TagsSelector({tags, setTags: setSelectedTags}) {
                     {key == focusTagIndex && 
                     <input 
                         type="color" 
-                        className="p-0 mt-0.5 bg-transparent cursor-pointer w-4 h-4 shadow-[0_0_1px_2px_rgb(0,0,0)] color_selector mr-2"
+                        className="p-0 mt-0.5 bg-transparent cursor-pointer w-4 h-4 shadow-[0_0_1px_2px_white] color_selector mr-2"
                         defaultValue={tag.color}
                         ref={inputColorTag}
                         onChange={setTagColor}

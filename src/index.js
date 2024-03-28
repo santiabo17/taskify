@@ -1,22 +1,45 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import {applyMiddleware, legacy_createStore as createStore} from 'redux';
-import { todosReducer } from './reducers/todos';
-import { reduxLocalStorageMiddleware } from './reducers/reduxLocalStorageMiddleware';
+import { BrowserRouter} from 'react-router-dom';
 import { store } from './reducers/store';
+import { useRoutes } from 'react-router';
+import { Login } from './pages/Login';
+import { UserPage } from './pages/UserPage';
+import Tablero from './pages/Tablero';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // const store = createStore(todosReducer, applyMiddleware(reduxLocalStorageMiddleware));
+const AppRoutes = () => {
+  let routes = useRoutes([
+    {
+      path: '/',
+      element: <Tablero/>
+    },
+    {
+      path: '/login',
+      element: <Login/>
+    },
+    {
+      path: '/:userid',
+      element: <UserPage/>
+    },{
+      path: '/:userid/:tableroid',
+      element: <Tablero/>
+    }
+  ])
+  return routes;
+}
 
 root.render(
   <React.StrictMode>
     <Provider store = {store}>
-      <App />
+      <BrowserRouter>
+        <AppRoutes/>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

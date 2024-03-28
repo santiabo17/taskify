@@ -1,4 +1,7 @@
-import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_DARK_MODE, SET_DRAG_CONTAINER, SET_FORM, SET_TAGS } from "./types";
+import { useDispatch } from "react-redux";
+import { getAlllUsersData } from "../DB/getAllUsersData";
+import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TABLERO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TABLERO, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TABLERO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_CONTAINERS, SET_DARK_MODE, SET_DRAG_CONTAINER, SET_FORM, SET_TABLEROS, SET_TAGS } from "./types";
+
 
 export const addTodo = (payload) => ({
     type: ADD_TODO,
@@ -25,6 +28,11 @@ export const removeEmptyTodo = (payload) => ({
     payload
 })
 
+export const setContainers = (payload) => ({
+    type: SET_CONTAINERS,
+    payload
+})
+
 export const addContainer = (payload) => ({
     type: ADD_CONTAINER,
     payload
@@ -37,6 +45,35 @@ export const editContainer = (payload) => ({
 
 export const removeContainer = (payload) => ({
     type: REMOVE_CONTAINER,
+    payload
+})
+
+export const setTableros = (payload) => ({
+    type: SET_TABLEROS,
+    payload
+})
+
+export const getDBData = (payload) => {
+    return async(dispatch) => {
+        const allData = await getAlllUsersData(payload);
+        dispatch(setTableros(allData));
+    }
+}
+    
+
+
+export const addTablero = (payload) => ({
+    type: ADD_TABLERO,
+    payload
+})
+
+export const editTablero = (payload) => ({
+    type: EDIT_TABLERO,
+    payload
+})
+
+export const removeTablero = (payload) => ({
+    type: REMOVE_TABLERO,
     payload
 })
 

@@ -3,13 +3,16 @@ import { TodosContainer } from "./TodosContainer";
 import { addContainer, alterContainerPosition, setActiveContainer, setActiveTodo } from "../actions";
 import React from "react";
 
-function ContainersParent(){
-    const state = useSelector(state => state);
-    // console.log(state);
+function ContainersParent({tableroid}){
     const todosData = useSelector(state => state.todos);
-    // console.log(todosData);
-    const todos = todosData.map(([_, todos]) => todos);
-    const containers = todosData.map(([container, _]) => container);
+    // const containers = [];
+    const containers = todosData.find(([tablero, containers]) => tablero.id == tableroid)[1];
+    const todos = containers.map(container => container[1]);
+
+    console.log(todosData);
+    console.log(containers);
+    console.log(todos);
+    
     const selectedContainer = useSelector(state => state.containerSelected);
     const darkMode = useSelector(state => state.darkMode);
     
@@ -33,7 +36,6 @@ function ContainersParent(){
             console.log('containerIndex', containerIndex);
             dispatch(alterContainerPosition({newIndex: containerIndex, container: selectedContainer}));
         }
-        
     }
 
     return (
@@ -48,7 +50,7 @@ function ContainersParent(){
         }}
         // onDragStart={(e) => {e.preventDefault();}}
         >
-            {containers.map((container, key) => <TodosContainer key={container} containerName={container} todos={todos[key]}/>)}
+            {containers.map((container, key) => <TodosContainer key={container} containerName={container[0]} todos={todos[key]}/>)}
             <button 
                 className={`${darkMode ? 'bg-slate-950' : 'bg-slate-950/70'}  text-white w-80 basis-80 h-20 py-3 mb-8 mr-2.5`}
                 onClick={handleAddNewContainer}

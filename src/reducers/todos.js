@@ -1,7 +1,7 @@
-import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_DARK_MODE, SET_DRAG_CONTAINER, SET_FORM, SET_TAGS } from "../actions/types"
+import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TABLERO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TABLERO, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TABLERO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_CONTAINERS, SET_DARK_MODE, SET_DRAG_CONTAINER, SET_FORM, SET_TABLEROS, SET_TAGS } from "../actions/types"
 
 const initialState = {
-    todos: [['POR HACER', []], ['EN PROCESO', []], ['FINALIZADAS', []]],
+    todos: [['TABLERO1', ['POR HACER', []], ['EN PROCESO', []], ['FINALIZADAS', []]]],
     tags: [{color: '#006600', value: 'Development'}, {color: '#000099', value: 'Testing'}, {color: '#ff0000', value: 'Data Base'}, {color: '#660066', value: 'Urgent'}],
     todoSelected: null,
     containerSelected: null,
@@ -66,6 +66,9 @@ export const todosReducer = (state=initialState, action) => {
             console.log(newTodos);
             return {...state, todos: newTodos};
         }
+        case SET_CONTAINERS: {
+            return {state, todos: action.payload}
+        }
         case ADD_CONTAINER: {
             return {...state, todos: [...state.todos, [action.payload, []]]}
         }
@@ -81,6 +84,26 @@ export const todosReducer = (state=initialState, action) => {
             const containerIndex = state.todos.findIndex(container => container[0] == action.payload);
             const newTodos = [...state.todos];
             newTodos.splice(containerIndex, 1);
+            return {...state, todos: newTodos};
+        }
+        case SET_TABLEROS: {
+            return {state, todos: action.payload}
+        }
+        case ADD_TABLERO: {
+            return {...state, todos: [...state.todos, [action.payload, ['POR HACER', []], ['EN PROCESO', []], ['FINALIZADAS', []]]]}
+        }
+        case EDIT_TABLERO: {
+            const newTodos = [...state.todos];
+            const tableroIndex = state.todos.findIndex(tablero => tablero[0] == action.payload.oldName);
+            if(tableroIndex){
+                newTodos[tableroIndex][0] = action.payload.newName;
+                return {...state, todos: newTodos};
+            }
+        }
+        case REMOVE_TABLERO: {
+            const tableroIndex = state.todos.findIndex(tablero => tablero[0] == action.payload);
+            const newTodos = [...state.todos];
+            newTodos.splice(tableroIndex, 1);
             return {...state, todos: newTodos};
         }
         case ALTER_CONTAINER_POSITION: {

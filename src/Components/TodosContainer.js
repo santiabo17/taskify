@@ -5,7 +5,7 @@ import { TodoCard } from "./TodoCard";
 import { v4 as uuidv4 } from 'uuid';
 
 function TodosContainer({containerName, todos, dragging}){
-    // console.log(containerName, todos);
+    console.log(containerName, todos);
     // console.log(containerName);
     const [edit, setEdit] = React.useState(containerName.length == 0);
     const [name, setName] = React.useState(containerName);
@@ -37,7 +37,6 @@ function TodosContainer({containerName, todos, dragging}){
 
     const handleChangingTodoContainer = (e) => {
         if(todoSelected != null){
-            // console.log(todoSelected.container);
             const containerTop = container.current.getBoundingClientRect().top + 45;
             const elementY = e.clientY;
             const position = elementY - containerTop;
@@ -69,21 +68,11 @@ function TodosContainer({containerName, todos, dragging}){
         }
     }
 
-    // React.useEffect(() => {
-    //     const emptyTodo = {todo: {status: 'empty'}, container: name}
-    //     if(dragContainer != containerName){
-    //         dispatch(removeEmptyTodo(emptyTodo));
-    //     } else {
-    //         dispatch(addEmptyTodo(emptyTodo));
-    //     }
-    // }, [dragContainer])
-             
-
     return (
         <>
             {containerName == containerSelected ?
                 <div className="column min-h-[400px] text-white bg-slate-700/70 w-80 basis-80"></div> :
-                <div draggable={true} className={`column min-h-[400px] text-white ${darkMode ? 'bg-slate-900' : 'bg-slate-400'} w-80 basis-80 cursor-grab active:cursor-grabbing`}
+                <div draggable={true} className={`column min-h-[400px] text-white text-center ${darkMode ? 'bg-slate-900' : 'bg-slate-400'} w-80 basis-80 cursor-grab active:cursor-grabbing`}
                 onDragLeave={handleChangingTodoContainer}
                 onDragOver={e => {e.preventDefault(); e.stopPropagation(); handleChangingTodoContainer(e)}}
                 onDragStart={(e) => {
@@ -109,7 +98,6 @@ function TodosContainer({containerName, todos, dragging}){
                 // onDrop={handleChangeTodoContainer}
                 onDrop={() => dispatch(setActiveTodo(null))}
                 ref={container}
-                
                 >
                     <input 
                     className='text-xl font-bold mt-4 mb-6 w-72 px-2 border-0 bg-transparent focus: outline-0'
@@ -120,7 +108,7 @@ function TodosContainer({containerName, todos, dragging}){
                     onBlur={(event) => {handleChangeContainerName(event.target.value)}} 
                     onClick={() => {setEdit(true)}}/>
                     {todos.map((todo, key) => (
-                        todo.id ? 
+                        todo.ID_TODO ? 
                         <TodoCard todo={todo} container={containerName} key={key}/> : 
                         <div className='relative mb-2 w-11/12 mx-auto h-16 bg-blue-500'></div>
                     )   

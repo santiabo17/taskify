@@ -7,25 +7,28 @@ import { orderDateValue } from "../utils";
 import { CalendarIcon } from "./CalendarIcon";
 
 function TodoCard({todo, container}){
-    const [editTask, setEditTask] = React.useState(todo.todo.length == 0);
-    const [task, setTask] = React.useState(todo.todo);
-    const [tags, setTags] = React.useState(todo.tags);
-    const [time, setTime] = React.useState(todo.time);
+
+    console.log('todo', todo);
+
+    const [editTask, setEditTask] = React.useState(todo.TAREA.length == 0);
+    const [task, setTask] = React.useState(todo.TAREA);
+    // const [tags, setTags] = React.useState(todo.tags);
+    const [tags, setTags] = React.useState([]);
+    const [time, setTime] = React.useState(todo.FECHA);
 
     React.useEffect(()=> {
-        setTask(todo.todo);
-        setTags(todo.tags);
-        setTime(todo.time);
+        setTask(todo.TAREA);
+        // setTags(todo.tags);
+        setTags([]);
+        setTime(todo.TAREA);
     }, [todo]);
 
-    
-
     const todoSelectedCard = React.useRef();
-    // const todoGhostCard = useRef();
 
     const dispatch = useDispatch();
     const tagsData = useSelector(state => state.tags);
-    const tagsValues = useSelector(state => state.tags).filter((tag, key) => tags.includes(key));
+    // const tagsValues = useSelector(state => state.tags).filter((tag, key) => tags.includes(key));
+    const tagsValues = []
     const isOpenTodoForm = useSelector(state => state.todoCardForm);
     const todoSelected = useSelector(state => state.todoSelected);
     const darkMode = useSelector(state => state.darkMode);
@@ -54,7 +57,7 @@ function TodoCard({todo, container}){
 
     return (
         <>
-            {todo.id == todoSelected?.id && !isOpenTodoForm ?
+            {todo.ID_TODO == todoSelected?.id && !isOpenTodoForm ?
                 <div 
                     className={`relative mb-2 h-[50px] w-11/12 mx-auto ${darkMode ? 'bg-indigo-500/30' : 'bg-slate-900/60'}`}
                 ></div> :
@@ -103,7 +106,7 @@ function TodoCard({todo, container}){
                         {time &&     
                             <div className="w-1/2 flex items-center justify-between">
                                 <CalendarIcon/>
-                                <h2 className=" font-bold">{orderDateValue(time)}</h2>
+                                <h2 className="font-bold">{orderDateValue(time)}</h2>
                             </div>    
                         }
                         {tagsValues.length > 0 &&
