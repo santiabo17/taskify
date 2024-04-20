@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { EditIcon } from "./EditIcon";
-import { CloseIcon } from "./CloseIcon";
-import { PlusIcon } from "./PlusIcon";
+import { EditIcon } from "./Icons/EditIcon";
+import { CloseIcon } from "./Icons/CloseIcon";
+import { PlusIcon } from "./Icons/PlusIcon";
 import React from "react";
 import { setTags } from "../actions";
 import { getRandomColor } from "../utils";

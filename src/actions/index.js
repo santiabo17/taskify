@@ -1,7 +1,11 @@
 import { useDispatch } from "react-redux";
 import { getAlllUsersData } from "../DB/getAllUsersData";
-import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TABLERO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TABLERO, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TABLERO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_CONTAINERS, SET_DARK_MODE, SET_DRAG_CONTAINER, SET_FORM, SET_TABLEROS, SET_TAGS } from "./types";
+import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TABLERO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TABLERO, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TABLERO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TABLERO, SET_ACTIVE_TODO, SET_CONTAINERS, SET_DARK_MODE, SET_DRAG_CONTAINER, SET_FORM, SET_TABLEROS, SET_TAGS, SET_USERID } from "./types";
 
+export const setUserid = (payload) => ({
+    type: SET_USERID,
+    payload
+})
 
 export const addTodo = (payload) => ({
     type: ADD_TODO,
@@ -59,8 +63,6 @@ export const getDBData = (payload) => {
         dispatch(setTableros(allData));
     }
 }
-    
-
 
 export const addTablero = (payload) => ({
     type: ADD_TABLERO,
@@ -94,6 +96,11 @@ export const alterTodoPosition = (payload) => ({
 
 export const manageTodoForm = (payload) => ({
     type: MANAGE_TODO_FORM,
+    payload
+})
+
+export const setActiveTablero = (payload) => ({
+    type: SET_ACTIVE_TABLERO,
     payload
 })
 

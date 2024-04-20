@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { TodoCard } from "./TodoCard";
 import { v4 as uuidv4 } from 'uuid';
 
-function TodosContainer({containerName, todos, dragging}){
-    console.log(containerName, todos);
-    // console.log(containerName);
-    const [edit, setEdit] = React.useState(containerName.length == 0);
-    const [name, setName] = React.useState(containerName);
+function TodosContainer({containerData, todos, dragging}){
+    // console.log('containerData', containerData, todos);
+    const {id, nombre} = containerData;
+    const [edit, setEdit] = React.useState(nombre.length == 0);
+    const [name, setName] = React.useState(nombre);
 
     const container = React.useRef();
 
@@ -18,21 +18,21 @@ function TodosContainer({containerName, todos, dragging}){
     const darkMode = useSelector(state => state.darkMode);
 
     React.useEffect(() => {
-        setName(containerName);
-    }, [containerName]);
+        setName(nombre);
+    }, [nombre]);
 
     const handleChangeContainerName = (newName) => {
         if(newName.length < 1){
             dispatch(removeContainer(""))
         }
-        if(containerName != newName){
-            dispatch(editContainer({oldName: containerName, newName: newName}));
+        if(nombre != newName){
+            dispatch(editContainer({id: id, newName: newName}));
         }
     }
 
     const handleAddTodo = () => {
         const uniqueId = uuidv4();
-        dispatch(addTodo({todo: {id: uniqueId, todo: '', tags: [], time: null}, container: containerName}));
+        dispatch(addTodo({todo: {tarea: '', tags: [], fecha: null}, container: containerData}));
     }
 
     const handleChangingTodoContainer = (e) => {
@@ -70,7 +70,7 @@ function TodosContainer({containerName, todos, dragging}){
 
     return (
         <>
-            {containerName == containerSelected ?
+            {containerData == containerSelected ?
                 <div className="column min-h-[400px] text-white bg-slate-700/70 w-80 basis-80"></div> :
                 <div draggable={true} className={`column min-h-[400px] text-white text-center ${darkMode ? 'bg-slate-900' : 'bg-slate-400'} w-80 basis-80 cursor-grab active:cursor-grabbing`}
                 onDragLeave={handleChangingTodoContainer}
@@ -91,7 +91,7 @@ function TodosContainer({containerName, todos, dragging}){
                         ghostContainer.classList.add('ghost_container');
                         document.body.appendChild(ghostContainer);
                         e.dataTransfer.setDragImage(ghostContainer, 50, 0);
-                        dispatch(setActiveContainer(containerName)); 
+                        dispatch(setActiveContainer(containerData)); 
                         dispatch(setActiveTodo(null));
                     }
                 }}
@@ -108,8 +108,8 @@ function TodosContainer({containerName, todos, dragging}){
                     onBlur={(event) => {handleChangeContainerName(event.target.value)}} 
                     onClick={() => {setEdit(true)}}/>
                     {todos.map((todo, key) => (
-                        todo.ID_TODO ? 
-                        <TodoCard todo={todo} container={containerName} key={key}/> : 
+                        todo.id_todo ? 
+                        <TodoCard todo={todo} container={containerData} key={key}/> : 
                         <div className='relative mb-2 w-11/12 mx-auto h-16 bg-blue-500'></div>
                     )   
                     )}

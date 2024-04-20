@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { BrowserRouter} from 'react-router-dom';
 import { store } from './reducers/store';
-import { useRoutes } from 'react-router';
+import { Navigate, useRoutes } from 'react-router';
 import { Login } from './pages/Login';
 import { UserPage } from './pages/UserPage';
 import Tablero from './pages/Tablero';
@@ -14,10 +14,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // const store = createStore(todosReducer, applyMiddleware(reduxLocalStorageMiddleware));
 const AppRoutes = () => {
+  const account = localStorage.getItem('trello_user');
   let routes = useRoutes([
     {
       path: '/',
-      element: <Tablero/>
+      element: account ? <Navigate replace to={'/1'}/> : <Navigate replace to={'/login'}/>
     },
     {
       path: '/login',

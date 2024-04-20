@@ -16,6 +16,7 @@ function Login (){
             } else {
                 console.log(data);
                 setMessage('logeo correcto');
+                localStorage.setItem('trello_user', data.NOMBRE_USUARIO);
                 navigate('/'+data.ID_USUARIO);
             }
         })
@@ -29,7 +30,7 @@ function Login (){
                 <h3 className="mb-2 text-sky-950">Contrase�a</h3>
                 <input className="border-2 border-black w-full p-2 mb-2 text-xl text-sky-950" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 <button className="w-full block p-2 text-white mt-5 bg-sky-950" onClick={handleLogin}>Login</button>
-                {message && <h1>{message}</h1>}
+                {message && <h3 className="bg-red-500 text-lg text-white mt-5 p-2 text-center">{message}</h3>}
             </div>
         </div>
         

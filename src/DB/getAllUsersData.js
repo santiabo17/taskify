@@ -1,9 +1,8 @@
 async function getAlllUsersData(userid){
     const tablerosResponse = await fetch(`http://localhost:3500/tableros/user/${userid}`);
     const tableros = await tablerosResponse.json();
-    // console.log('tableros', tableros);
-
-    // 
+    console.log('tableros', tableros);
+    
     const containersPromises = tableros.map(tablero => {
         return fetch(`http://localhost:3500/tableros/${tablero.id_tablero}/containers`).then(data => data.json())
     });
@@ -34,9 +33,9 @@ async function getAlllUsersData(userid){
         } else {
             return containersGroup.map((container, indexC) => {
                 if(todos[indexCG][indexC].error){
-                    return [container.NOMBRE, []]
+                    return [{id: container.ID_CONTAINER, nombre: container.NOMBRE}, []]
                 } else {
-                    return [container.NOMBRE, todos[indexCG][indexC]]
+                    return [{id: container.ID_CONTAINER, nombre: container.NOMBRE}, todos[indexCG][indexC]]
                 }
             })
         }

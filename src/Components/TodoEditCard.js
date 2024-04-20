@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo, editTodo, manageTodoForm, setActiveTodo } from "../actions";
-import { CloseIcon } from "./CloseIcon";
-import { PlusIcon } from "./PlusIcon";
-import { EditIcon } from "./EditIcon";
+import { CloseIcon } from "./Icons/CloseIcon";
+import { PlusIcon } from "./Icons/PlusIcon";
+import { EditIcon } from "./Icons/EditIcon";
 import { TagsSelector } from "./TagsSelector";
 import './style.css'
 

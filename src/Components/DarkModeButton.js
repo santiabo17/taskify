@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
-import { SunIcon } from "./SunIcon";
-import { MoonIcon } from "./MoonIcon";
+import { SunIcon } from "./Icons/SunIcon";
+import { MoonIcon } from "./Icons/MoonIcon";
 
 function DarkModeButton({className, onClick}){
     const darkMode = useSelector(state => state.darkMode);

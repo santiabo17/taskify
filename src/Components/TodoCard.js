@@ -1,26 +1,25 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addEmptyTodo, editTodo, manageTodoForm, removeTodo, setActiveContainer, setActiveTodo, setDragContainer } from "../actions";
-import { CloseIcon } from "./CloseIcon";
-import { EditIcon } from "./EditIcon";
+import { CloseIcon } from "./Icons/CloseIcon";
+import { EditIcon } from "./Icons/EditIcon";
 import { orderDateValue } from "../utils";
-import { CalendarIcon } from "./CalendarIcon";
+import { CalendarIcon } from "./Icons/CalendarIcon";
 
 function TodoCard({todo, container}){
-
-    console.log('todo', todo);
-
-    const [editTask, setEditTask] = React.useState(todo.TAREA.length == 0);
-    const [task, setTask] = React.useState(todo.TAREA);
+    // console.log('smthng');
+    // console.log('todo', todo);
+    const [editTask, setEditTask] = React.useState(todo.tarea.length == 0);
+    const [task, setTask] = React.useState(todo.tarea);
     // const [tags, setTags] = React.useState(todo.tags);
     const [tags, setTags] = React.useState([]);
-    const [time, setTime] = React.useState(todo.FECHA);
+    const [time, setTime] = React.useState(todo.fecha);
 
     React.useEffect(()=> {
-        setTask(todo.TAREA);
+        setTask(todo.tarea);
         // setTags(todo.tags);
         setTags([]);
-        setTime(todo.TAREA);
+        setTime(todo.fecha);
     }, [todo]);
 
     const todoSelectedCard = React.useRef();
@@ -42,12 +41,12 @@ function TodoCard({todo, container}){
     }, [todoSelected])
 
     const handleSetTodo = () => {
-            dispatch(editTodo({newTodo: {id: todo.id, todo: task, tags: tags, time: time}, container: container}));
+            dispatch(editTodo({todo: {id: todo.id_todo, tarea: task, tags: tags, fecha: time}, container: container}));
             setTask(todo.todo);
     }
 
     const handleRemoveTodo = () => {
-        dispatch(removeTodo({todoId: todo.id, container: container}));
+        dispatch(removeTodo({todoId: todo.id, containerId: container.id}));
     }
 
     const handleOpenEditCard = () => {
@@ -57,7 +56,7 @@ function TodoCard({todo, container}){
 
     return (
         <>
-            {todo.ID_TODO == todoSelected?.id && !isOpenTodoForm ?
+            {todo.id_todo == todoSelected?.id && !isOpenTodoForm ?
                 <div 
                     className={`relative mb-2 h-[50px] w-11/12 mx-auto ${darkMode ? 'bg-indigo-500/30' : 'bg-slate-900/60'}`}
                 ></div> :
