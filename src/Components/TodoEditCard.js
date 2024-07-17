@@ -46,7 +46,7 @@ function TodoEditCard(){
 
     return (
         <form ref={formRef} className='bg-slate-900/95 w-2/6 p-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-wrap justify-between'>
-        <h2 className='mb-3 text-white text-2xl w-full'>EDITING TODO</h2>
+        <h2 className='mb-3 text-white text-2xl w-full'>EDITING TASK</h2>
         <input className='p-1 border-black border-2 w-full mb-3' type="text" placeholder='todo' onChange={(e) => setTask(e.target.value)} value={task}/>
         <input className='p-1 w-1/3 h-8 bg-black text-white font-mono date_picker' type="date" value={time} onChange={(e) => {setTime(e.target.value); handleEditTodo()}}/>
         <TagsSelector tags={tags} setTags={setTags}/>

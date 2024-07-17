@@ -123,7 +123,7 @@ function TodosContainer({containerName, todos, dragging}){
                         <button 
                             className={`${darkMode ? 'bg-slate-950' : 'bg-slate-950/60'}  w-48 py-3 mb-8`}
                             onClick={handleAddTodo}
-                        >Create New Todo</button>
+                        >Create New Task</button>
                     </div>
                     <button 
                         className={`${darkMode ? 'bg-slate-950' : 'bg-slate-950/60'} w-11/12 rounded-md p-2 transition-all`}
