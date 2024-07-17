@@ -6,7 +6,7 @@ import { EditIcon } from "./EditIcon";
 import { orderDateValue } from "../utils";
 import { CalendarIcon } from "./CalendarIcon";
 
-function TodoCard({todo, container}){
+function TodoCard({todo, container, filter}){
     const [editTask, setEditTask] = React.useState(todo.todo.length == 0);
     const [task, setTask] = React.useState(todo.todo);
     const [tags, setTags] = React.useState(todo.tags);
@@ -52,9 +52,12 @@ function TodoCard({todo, container}){
         dispatch(setActiveTodo({...todo, container: container}));
     }
 
+    console.log('filter', filter);
+    console.log(todo, (filter == 'All' || todo.tags.includes(filter)))
+
     return (
         <>
-            {todo.id == todoSelected?.id && !isOpenTodoForm ?
+            {(todo.id == todoSelected?.id && !isOpenTodoForm) || !(filter == 'All' || todo.tags.includes(filter)) ?
                 <div 
                     className={`relative mb-2 h-[50px] w-11/12 mx-auto ${darkMode ? 'bg-indigo-500/30' : 'bg-slate-900/60'}`}
                 ></div> :
@@ -90,14 +93,25 @@ function TodoCard({todo, container}){
                     absolute w-7 h-7 text-xl font-bold text-white cursor-pointer -top-3 -right-1.5 flex items-center justify-center`}
                     onClick={handleOpenEditCard}
                     />
-                    <input type="text" 
-                    className="w-3/4 text-xl bg-transparent border-0 focus:outline-0"
+                    {/* <input type="text" 
+                    className="w-3/4 text-md bg-transparent border-0 focus:outline-0"
                     autoFocus={editTask}
                     onChange={(e) => setTask(e.target.value)}
                     onClick={(e) => {setEditTask(true); e.stopPropagation();}}
                     onBlur={handleSetTodo} 
                     readOnly={!editTask}
                     value={task}
+                    /> */}
+                    <textarea
+                    className="w-5/6 resize-none text-md h-fit bg-transparent border-0 focus:outline-0"
+                    autoFocus={editTask}
+                    onChange={(e) => setTask(e.target.value)}
+                    onClick={(e) => {setEditTask(true); e.stopPropagation();}}
+                    onBlur={handleSetTodo} 
+                    readOnly={!editTask}
+                    value={task}
+                    maxLength={50}
+                    rows={Math.min(Math.ceil(task.length/20), 3)}
                     />
                     <div className="flex items-start justify-between mt-1">
                         {time &&     

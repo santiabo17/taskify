@@ -1,8 +1,9 @@
-import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_DARK_MODE, SET_DRAG_CONTAINER, SET_FORM, SET_TAGS } from "../actions/types"
+import { ADD_CONTAINER, ADD_EMPTY_TODO, ADD_TODO, ALTER_CONTAINER_POSITION, ALTER_TODO_CONTAINER, ALTER_TODO_POSITION, EDIT_CONTAINER, EDIT_TODO, MANAGE_TODO_FORM, REMOVE_CONTAINER, REMOVE_EMPTY_TODO, REMOVE_TODO, SET_ACTIVE_CONTAINER, SET_ACTIVE_TODO, SET_DARK_MODE, SET_DRAG_CONTAINER, SET_FILTER, SET_FORM, SET_TAGS } from "../actions/types"
 
 const initialState = {
     todos: [['POR HACER', []], ['EN PROCESO', []], ['FINALIZADAS', []]],
     tags: [{color: '#006600', value: 'Development'}, {color: '#000099', value: 'Testing'}, {color: '#ff0000', value: 'Data Base'}, {color: '#660066', value: 'Urgent'}],
+    filter: 'All',
     todoSelected: null,
     containerSelected: null,
     dragContainer: null,
@@ -56,6 +57,14 @@ export const todosReducer = (state=initialState, action) => {
             console.log('borrando el todo vacio', newTodos);
             return {...state, todos: newTodos}; 
         }
+        case SET_FILTER: {
+            if(action.payload == "All"){
+                return {...state, filter:"All"};
+            } else {
+                const selectedFilter = state.tags.findIndex(tag => tag.value == action.payload);
+                return {...state, filter:selectedFilter};
+            }
+        }
         case REMOVE_EMPTY_TODO: {
             const newTodos = [...state.todos];
             const containerIndex = state.todos.findIndex(container => container[0] == action.payload.container);
@@ -104,8 +113,6 @@ export const todosReducer = (state=initialState, action) => {
             const newTodos = [...state.todos];
             const cantContainerTodos = newTodos[containerIndex][1].length;
             const oldTodoIndex = newTodos[containerIndex][1].findIndex(todo => todo.id == action.payload.todo.id);
-            // console.log(oldTodoIndex);
-            // console.log(action.payload.newIndex);
             if(cantContainerTodos == 0){
                 console.log('first');
                 newTodos[containerIndex][1][0] = action.payload.todo;

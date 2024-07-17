@@ -7,6 +7,7 @@ const tagsTodos = localStorage.getItem('todos_tags_ls') != 'undefined' ? JSON.pa
 const initialState = {
     todos: storageTodos ? storageTodos : [['POR HACER', []], ['EN PROCESO', []], ['FINALIZADAS', []]],
     tags: tagsTodos ? tagsTodos : [{color: '#006600', value: 'Development'}, {color: '#000099', value: 'Testing'}, {color: '#ff0000', value: 'Data Base'}, {color: '#660066', value: 'Urgent'}],
+    filter: 'All',
     todoSelected: null,
     containerSelected: null,
     dragContainer: null,

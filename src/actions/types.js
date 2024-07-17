@@ -2,6 +2,7 @@ export const ADD_TODO = 'ADD_TODO';
 export const ADD_EMPTY_TODO = 'ADD_EMPTY_TODO';
 export const EDIT_TODO = 'EDIT_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
+export const SET_FILTER = 'SET_FILTER'
 export const REMOVE_EMPTY_TODO = 'REMOVE_EMPTY_TODO';
 export const ALTER_TODO_CONTAINER = 'ALTER_TODO_CONTAINER';
 export const ALTER_TODO_POSITION = 'ALTER_TODO_POSITION';

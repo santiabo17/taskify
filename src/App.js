@@ -6,6 +6,8 @@ import { TodosContainer } from './Components/TodosContainer';
 import { TodoEditCard } from './Components/TodoEditCard';
 import { ContainersParent } from './Components/ContainersParent';
 import { DarkModeButton } from './Components/DarkModeButton';
+import { TodosFilter } from './Components/TodosFilter';
+import { CustomSelect } from './Components/CustomSelect';
 
 
 function App() {
@@ -26,10 +28,11 @@ function App() {
       }}
     >
       <div className='sticky left-0 w-screen mb-5'>
+        <TodosFilter/>
         <h1 className={`text-[100px] w-full text-center leading-lose text-white ${darkMode ? 'text-white' : 'text-white drop-shadow-lg'}`}>TRELLO</h1>
         <DarkModeButton 
-        className='absolute top-0 right-10  w-10 h-10 cursor-pointer mt-5'
-        onClick={() => {dispatch(setDarkMode(!darkMode)); console.log(darkMode)}}
+        className='absolute top-0 right-10 z-10  w-10 h-10 cursor-pointer mt-5'
+        onClick={() => dispatch(setDarkMode(!darkMode))}
         />
       </div>
       <ContainersParent/>

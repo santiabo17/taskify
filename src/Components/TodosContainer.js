@@ -16,6 +16,7 @@ function TodosContainer({containerName, todos, dragging}){
     const containerSelected = useSelector(state => state.containerSelected);
     const todoSelected = useSelector(state => state.todoSelected);
     const darkMode = useSelector(state => state.darkMode);
+    const filter = useSelector(state => state.filter);
 
     React.useEffect(() => {
         setName(containerName);
@@ -37,7 +38,6 @@ function TodosContainer({containerName, todos, dragging}){
 
     const handleChangingTodoContainer = (e) => {
         if(todoSelected != null){
-            // console.log(todoSelected.container);
             const containerTop = container.current.getBoundingClientRect().top + 45;
             const elementY = e.clientY;
             const position = elementY - containerTop;
@@ -48,10 +48,14 @@ function TodosContainer({containerName, todos, dragging}){
                 dispatch(alterTodoContainer({todo: {...todoSelected}, containers: {old: todoSelected.container, new: name}}));
                 dispatch(setActiveTodo({...todoSelected, container: name}));
             }
-            if(todoIndex != originalIndex){
+            if(todoIndex != originalIndex && todoIndex >= 0){
                 dispatch(alterTodoPosition({todo: {...todoSelected}, container: name, newIndex: todoIndex}));
             }
         }
+    }
+
+    const handleRemoveContainer = () => {
+        dispatch(removeContainer(name));
     }
 
     const handleChangeTodoContainer = (e) => {
@@ -68,22 +72,13 @@ function TodosContainer({containerName, todos, dragging}){
             }
         }
     }
-
-    // React.useEffect(() => {
-    //     const emptyTodo = {todo: {status: 'empty'}, container: name}
-    //     if(dragContainer != containerName){
-    //         dispatch(removeEmptyTodo(emptyTodo));
-    //     } else {
-    //         dispatch(addEmptyTodo(emptyTodo));
-    //     }
-    // }, [dragContainer])
              
 
     return (
         <>
             {containerName == containerSelected ?
                 <div className="column min-h-[400px] text-white bg-slate-700/70 w-80 basis-80"></div> :
-                <div draggable={true} className={`column min-h-[400px] text-white ${darkMode ? 'bg-slate-900' : 'bg-slate-400'} w-80 basis-80 cursor-grab active:cursor-grabbing`}
+                <div draggable={true} className={`column min-h-[400px] h-fit text-white ${darkMode ? 'bg-slate-900' : 'bg-slate-400'} w-80 basis-80 cursor-grab active:cursor-grabbing flex flex-col justify-between items-center pb-5`}
                 onDragLeave={handleChangingTodoContainer}
                 onDragOver={e => {e.preventDefault(); e.stopPropagation(); handleChangingTodoContainer(e)}}
                 onDragStart={(e) => {
@@ -106,29 +101,34 @@ function TodosContainer({containerName, todos, dragging}){
                         dispatch(setActiveTodo(null));
                     }
                 }}
-                // onDrop={handleChangeTodoContainer}
                 onDrop={() => dispatch(setActiveTodo(null))}
                 ref={container}
                 
                 >
-                    <input 
-                    className='text-xl font-bold mt-4 mb-6 w-72 px-2 border-0 bg-transparent focus: outline-0'
-                    value={name} 
-                    autoFocus={edit}
-                    onChange={(e) => setName(e.target.value)}
-                    readOnly={!edit} 
-                    onBlur={(event) => {handleChangeContainerName(event.target.value)}} 
-                    onClick={() => {setEdit(true)}}/>
-                    {todos.map((todo, key) => (
-                        todo.id ? 
-                        <TodoCard todo={todo} container={containerName} key={key}/> : 
-                        <div className='relative mb-2 w-11/12 mx-auto h-16 bg-blue-500'></div>
-                    )   
-                    )}
+                    <div>
+                        <input 
+                        className='text-xl font-bold mt-4 mb-6 w-72 px-2 border-0 bg-transparent focus: outline-0'
+                        value={name} 
+                        autoFocus={edit}
+                        onChange={(e) => setName(e.target.value)}
+                        readOnly={!edit} 
+                        onBlur={(event) => {handleChangeContainerName(event.target.value)}} 
+                        onClick={() => {setEdit(true)}}/>
+                        {todos.map((todo, key) => (
+                            todo.id ? 
+                            <TodoCard todo={todo} container={containerName} key={key} filter={filter}/> : 
+                            <div className='relative mb-2 w-11/12 mx-auto h-16 bg-blue-500'></div>
+                        )   
+                        )}
+                        <button 
+                            className={`${darkMode ? 'bg-slate-950' : 'bg-slate-950/60'}  w-48 py-3 mb-8`}
+                            onClick={handleAddTodo}
+                        >Create New Todo</button>
+                    </div>
                     <button 
-                        className={`${darkMode ? 'bg-slate-950' : 'bg-slate-950/60'}  w-48 py-3 mb-8`}
-                        onClick={handleAddTodo}
-                    >Create New Todo</button>
+                        className={`${darkMode ? 'bg-slate-950' : 'bg-slate-950/60'} w-11/12 rounded-md p-2 transition-all`}
+                        onClick={handleRemoveContainer}
+                    >DROP CONTAINER</button>
                 </div>
             }
         </>
